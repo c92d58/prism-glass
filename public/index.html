@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="theme-color" content="#708696"/>
+<title>Liquid light for the web · Prism</title>
+<meta name="description" content="Every way to put liquid light on the web — the technique, the code, the engine."/>
+<meta name="application-name" content="Prism"/>
+<meta name="author" content="Prism"/>
+<meta name="keywords" content="prism,glass refraction,liquid glass CSS,backdrop-filter,feDisplacementMap,Safari refraction,glassmorphism"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://prismglass.dev"/>
+<meta property="og:title" content="Liquid light for the web"/>
+<meta property="og:description" content="Every way to put liquid light on the web — the technique, the code, the engine."/>
+<meta property="og:url" content="https://prismglass.dev"/>
+<meta property="og:site_name" content="Prism"/>
+<meta property="og:image" content="/og.jpg"/>
+<meta property="og:image:type" content="image/jpeg"/>
+<meta property="og:image:width" content="2400"/>
+<meta property="og:image:height" content="1260"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Liquid light for the web"/>
+<meta name="twitter:description" content="Every way to put liquid light on the web — the technique, the code, the engine."/>
+<meta name="twitter:image" content="/og.jpg"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🔮</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; tab-size: 4; }
+body { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; background: #0b0e13; color: rgba(23,23,23,0.62); line-height: 1.5; }
+::selection { background: rgba(255,69,2,0.22); }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid rgba(0,0,0,0.45); outline-offset: 2px; border-radius: 4px; }
+
+/* Code blocks */
+.code-block { margin: 0; padding: 16px 18px; overflow-x: auto; line-height: 1.65; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: transparent !important; }
+.code-block code { font-family: inherit; background: transparent; padding: 0; font-size: 13px; }
+
+/* Links */
+.a-link { position: relative; color: rgba(23,23,23,0.92); text-decoration: none; white-space: nowrap; line-height: 1.15; }
+.a-link::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: rgba(0,0,0,0.32); }
+
+/* Header */
+.header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; pointer-events: none; }
+.header-logo { display: inline-flex; align-items: center; font-size: 14px; pointer-events: auto; color: rgba(255,255,255,0.96); }
+.header-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px 10px 12px; border-radius: 9999px; background: rgba(0,0,0,0.22); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: none; color: rgba(255,255,255,0.96); font: inherit; font-size: 14px; font-weight: 550; line-height: 1; white-space: nowrap; opacity: 0.5; pointer-events: auto; }
+
+/* Hero */
+.hero { position: sticky; top: 0; overflow: hidden; z-index: 0; background: #0b0e13; height: 576px; }
+.hero-bg { position: absolute; inset: 0; }
+.hero-bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 1200px; background-image: url('/bg.webp'); background-size: cover; background-position: center top; transform: translateY(-312px); }
+.hero-nav-area { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; }
+.hero-nav { position: relative; z-index: 10; display: flex; align-items: center; gap: 4px; }
+.hero-nav button { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; background: transparent; border: none; cursor: pointer; color: #fff; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; text-shadow: 0 1px 2px rgba(0,0,0,0.25); }
+.hero-nav button svg { opacity: 0.8; }
+.hero-expand { position: absolute; left: 0; right: 0; z-index: 5; display: flex; justify-content: center; pointer-events: none; top: 496px; }
+.hero-expand-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px 10px 12px; background: rgba(0,0,0,0.22); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: none; color: rgba(255,255,255,0.96); font: inherit; font-size: 14px; font-weight: 550; line-height: 1; cursor: pointer; white-space: nowrap; border-radius: 9999px; opacity: 1; pointer-events: auto; }
+.hero-overlay { position: absolute; inset: 0; background: #0b0e13; pointer-events: none; opacity: 0; }
+
+/* Content wrapper */
+.content-wrap { position: relative; z-index: 10; margin-top: -28px; min-height: 100vh; background: #ffffff; border-top-left-radius: 32px; border-top-right-radius: 32px; box-shadow: 0 -1px 1px rgba(15,18,24,0.05), 0 -8px 20px -6px rgba(15,18,24,0.18), 0 -24px 60px -18px rgba(15,18,24,0.28); }
+.content-inner { position: relative; max-width: 1080px; margin: 0 auto; }
+
+/* Section */
+.section { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+.section-title { padding-top: 104px; }
+.section-title h1 { font-size: 24px; font-weight: 550; color: rgba(23,23,23,0.92); letter-spacing: -0.4px; line-height: 1.2; margin: 0; text-wrap: balance; }
+.section-block { margin-top: 28px; }
+.section-block h2 { font-size: 15px; font-weight: 450; color: rgba(23,23,23,0.92); letter-spacing: -0.1px; margin: 80px 0 0; text-wrap: balance; }
+.section-block p { font-size: 14px; line-height: 1.72; letter-spacing: 0.1px; color: rgba(23,23,23,0.62); margin: 16px 0 0; text-wrap: pretty; }
+.section-block pre { margin: 22px 0 0; border-radius: 16px; overflow: hidden; background: rgba(0,0,0,0.04); font-size: 13px; }
+.section-block code { font-size: 0.84em; background: rgba(0,0,0,0.05); border-radius: 6px; padding: 3px 5px; color: rgba(23,23,23,0.92); }
+.section-block pre code { font-size: 13px; background: transparent; padding: 0; border-radius: 0; color: inherit; }
+
+/* Footer */
+.footer { max-width: 640px; margin: 0 auto; padding: 0 24px 80px; }
+.footer-by { font-size: 14px; line-height: 1.72; letter-spacing: 0.1px; color: rgba(23,23,23,0.62); margin: 80px 0 0; }
+.footer-by strong { color: rgba(23,23,23,0.92); font-weight: 550; }
+.footer-desc { font-size: 14px; line-height: 1.55; color: rgba(23,23,23,0.52); margin: 8px 0 0; max-width: 260px; }
+.footer-links { display: flex; gap: 12px; margin-top: 16px; }
+.footer-links a { font-size: 14px; }
+</style>
+</head>
+<body class="antialiased">
+<header class="header">
+  <span class="header-logo">
+    <svg width="33" height="13" viewBox="0 0 33 13" fill="none" aria-hidden="true" style="display:block">
+      <path d="M16.5 6.5C16.5 3.18629 13.7298 0.5 10.3125 0.5H6.1875C2.77024 0.5 0 3.18629 0 6.5C0 9.81371 2.77024 12.5 6.1875 12.5H10.3125C13.7298 12.5 16.5 9.81371 16.5 6.5Z" fill="currentColor"/>
+      <path d="M16.5 0.5H29.9062C31.6149 0.5 33 1.84315 33 3.5C33 5.15685 31.6149 6.5 29.9062 6.5H22.6875C19.2702 6.5 16.5 3.81371 16.5 0.5Z" fill="currentColor"/>
+      <path d="M24.75 12.5C26.4586 12.5 27.8437 11.1569 27.8437 9.5C27.8437 7.84315 26.4586 6.5 24.75 6.5H22.6875C19.2702 6.5 16.5 9.18629 16.5 12.5H24.75Z" fill="currentColor"/>
+    </svg>
+  </span>
+  <button type="button" disabled class="header-btn" aria-label="GitHub repository">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:block;flex-shrink:0">
+      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+    </svg>
+    Soon
+  </button>
+</header>
+
+<div class="hero">
+  <div class="hero-bg">
+    <div class="hero-bg-img"></div>
+  </div>
+  <div class="hero-nav-area">
+    <nav class="hero-nav" aria-label="Primary">
+      <button type="button" aria-expanded="false">
+        Product
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.3333 6L8 11.3333L2.66667 6"/></svg>
+      </button>
+      <button type="button" aria-expanded="false">
+        Resources
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.3333 6L8 11.3333L2.66667 6"/></svg>
+      </button>
+      <button type="button" aria-expanded="false">
+        Company
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.3333 6L8 11.3333L2.66667 6"/></svg>
+      </button>
+    </nav>
+  </div>
+  <div class="hero-expand">
+    <button type="button" class="hero-expand-btn" aria-label="Expand">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0">
+        <path d="M5.5 2.5H3.83333C3.09695 2.5 2.5 3.09695 2.5 3.83333V5.5M10.5 2.5H12.1667C12.903 2.5 13.5 3.09695 13.5 3.83333V5.5M13.5 10.5V12.1667C13.5 12.903 12.903 13.5 12.1667 13.5H10.5M5.5 13.5H3.83333C3.09695 13.5 2.5 12.903 2.5 12.1667V10.5"/>
+      </svg>
+      Expand
+    </button>
+  </div>
+  <div class="hero-overlay"></div>
+</div>
+
+<div class="content-wrap">
+  <div class="content-inner">
+
+    <!-- Title -->
+    <div class="section section-title">
+      <h1>Liquid light for the web</h1>
+    </div>
+
+    <!-- Overview -->
+    <div id="overview" class="section section-block">
+      <p>Light refracts. Passing through a crystal it bends, hardest at the rim, so the world behind it warps and brightens along its edge. That bend is the whole tell. Take it away and you have a frosted panel, which is what nearly every "liquid glass" on the web actually is: a blur with a bright border. Blur isn't glass.</p>
+      <p>We wanted the bend itself, computed from the optics rather than faked with a gradient, and working in every browser, Safari and Firefox included, not just Chromium. This walks through both halves: the physics that shapes the refraction, and the one move that gets it running everywhere. The dropdown pinned above is the result; it bends the photo looping behind it, so hover a nav item to open it.</p>
+    </div>
+
+    <!-- Optics -->
+    <div id="optics" class="section section-block">
+      <h2>The bend is computed, not painted</h2>
+      <p>The whole effect is one value per pixel: how far to shove the backdrop sideways there. Paint that as a soft radial gradient and you get something glassy enough, which is where most demos stop. We compute it from the surface instead, so the distortion is the one a real lens would make.</p>
+      <p>We model the lens as a physical object: a convex squircle dome, flat across the centre and curving down through a thin rim band, the same superellipse Apple rounds its corners with. For each pixel we take that dome&#x2019;s slope, refract a straight-down view ray through it with Snell&#x2019;s law at an index of 1.5 (real glass), and the sideways throw of the bent ray becomes the displacement, aimed along the surface normal we read off a signed-distance field of the rounded rectangle. The geometry does the rest. The slope is zero in the flat centre and steepens toward the edge, so all the bending concentrates at the rim while the centre stays clear, which is exactly how a thick piece of real glass behaves. A blue channel carries the specular height that becomes the bright rim light. No invented curve, just optics.</p>
+      <pre class="code-block" tabindex="0"><code><span style="color:#7C7F93;font-style:italic">// The surface is a squircle dome. x = depth in from the rim</span>
+<span style="color:#7C7F93;font-style:italic">// (0 = edge, 1 = flat centre); slope = the surface tilt.</span>
+<span style="color:#8839EF">const</span> slope  <span style="color:#179299">=</span> (<span style="color:#FE640B">1</span> <span style="color:#179299">-</span> x) <span style="color:#179299">**</span> <span style="color:#FE640B">3</span> <span style="color:#179299">/</span> (<span style="color:#FE640B">1</span> <span style="color:#179299">-</span> (<span style="color:#FE640B">1</span> <span style="color:#179299">-</span> x) <span style="color:#179299">**</span> <span style="color:#FE640B">4</span>) <span style="color:#179299">**</span> <span style="color:#FE640B">0.75</span>
+<span style="color:#8839EF">const</span> thetaI <span style="color:#179299">=</span> Math<span style="color:#179299">.</span><span style="color:#1E66F5">atan</span>(slope)
+<span style="color:#8839EF">const</span> thetaT <span style="color:#179299">=</span> Math<span style="color:#179299">.</span><span style="color:#1E66F5">asin</span>(Math<span style="color:#179299">.</span><span style="color:#1E66F5">sin</span>(thetaI) <span style="color:#179299">/</span> <span style="color:#FE640B">1.5</span>) <span style="color:#7C7F93;font-style:italic">// Snell's law</span>
+<span style="color:#8839EF">const</span> bend   <span style="color:#179299">=</span> Math<span style="color:#179299">.</span><span style="color:#1E66F5">sin</span>(thetaI <span style="color:#179299">-</span> thetaT) <span style="color:#7C7F93;font-style:italic">// 0 centre, max at rim</span>
+
+<span style="color:#7C7F93;font-style:italic">// aim the bend along the rounded-rect SDF normal (nx, ny), then</span>
+<span style="color:#7C7F93;font-style:italic">// write it to the map's R/G channels (128 = leave it put)</span>
+map<span style="color:#179299">.</span>r <span style="color:#179299">=</span> <span style="color:#FE640B">128</span> <span style="color:#179299">+</span> nx <span style="color:#179299">*</span> bend <span style="color:#179299">*</span> gain
+map<span style="color:#179299">.</span>g <span style="color:#179299">=</span> <span style="color:#FE640B">128</span> <span style="color:#179299">+</span> ny <span style="color:#179299">*</span> bend <span style="color:#179299">*</span> gain</code></pre>
+      <p>That map drives one SVG filter, <code>feDisplacementMap</code>: for each pixel it looks up the offset stored in the map and moves the content there by exactly that much. We wrote those offsets straight from the refraction math, so what comes out is the bend real glass makes, not a gradient tuned to look close.</p>
+    </div>
+
+    <!-- Cross-browser -->
+    <div id="crossbrowser" class="section section-block">
+      <h2>Refract a copy, not the backdrop</h2>
+      <p>The optics were the easy half. The hard half is a pure web problem: getting real backdrop pixels into that filter in every browser. The obvious route is a trap. <code>backdrop-filter</code> will run an SVG displacement filter, but only in Chromium. Safari and Firefox accept the property, silently drop the SVG part, and leave you a flat blur. That one gap is why most web &#x201C;liquid glass&#x201D; is glass in Chrome and frosting everywhere else.</p>
+      <p>The way through is to stop filtering the live backdrop and filter a copy of it. <code>feDisplacementMap</code> runs through the ordinary CSS <code>filter</code> property everywhere; only <code>backdrop-filter</code> is Chromium-only. So we render the backdrop a second time, counter-position that copy 1:1 under the lens, and bend the copy. The real interface beneath is never filtered; it stays fully interactive while the bent copy lies over it as nothing but light. We took this move, filtering a copy rather than the backdrop, from Aave&#x2019;s write-up, <a href="https://aave.com/design/building-glass-for-the-web" target="_blank" rel="noopener noreferrer" class="a-link">Building Glass for the Web</a>, which is where the credit belongs. The optics that shape the map are ours; this is the architecture that lets them run anywhere without a WebGL pipeline or a screenshot.</p>
+      <pre class="code-block" tabindex="0"><code><span style="color:#179299">&lt;</span><span style="color:#EA76CB">PrismScene</span> <span style="color:#DF8E1D">content</span><span style="color:#179299">=</span><span style="color:#7C7F93">{</span><span style="color:#179299">&lt;</span><span style="color:#EA76CB">Backdrop</span> <span style="color:#179299">/&gt;</span><span style="color:#7C7F93">}</span><span style="color:#179299">&gt;</span>
+  <span style="color:#179299">&lt;</span><span style="color:#1E66F5">nav</span><span style="color:#179299">&gt;</span><span style="color:#4C4F69">{triggers}</span><span style="color:#179299">&lt;/</span><span style="color:#1E66F5">nav</span><span style="color:#179299">&gt;</span>
+
+  <span style="color:#4C4F69">{open </span><span style="color:#179299">&amp;&amp;</span><span style="color:#4C4F69"> (</span>
+    <span style="color:#179299">&lt;</span><span style="color:#EA76CB">PrismLens</span> <span style="color:#DF8E1D">x</span><span style="color:#179299">=</span><span style="color:#4C4F69">{x}</span> <span style="color:#DF8E1D">y</span><span style="color:#179299">=</span><span style="color:#4C4F69">{y}</span> <span style="color:#DF8E1D">width</span><span style="color:#179299">=</span><span style="color:#FE640B">{W}</span> <span style="color:#DF8E1D">height</span><span style="color:#179299">=</span><span style="color:#4C4F69">{h}</span><span style="color:#179299">&gt;</span>
+      <span style="color:#4C4F69">{menuItems}</span>
+    <span style="color:#179299">&lt;/</span><span style="color:#EA76CB">PrismLens</span><span style="color:#179299">&gt;</span>
+  <span style="color:#4C4F69">)}</span>
+<span style="color:#179299">&lt;/</span><span style="color:#EA76CB">PrismScene</span><span style="color:#179299">&gt;</span></code></pre>
+      <p><code>PrismScene</code> renders the backdrop once and shares it; <code>PrismLens</code> drops a counter-positioned copy into the lens box and bends it. Because the copy tracks the backdrop frame for frame, the glass refracts live, moving content. Scroll, or let the photo loop, and the lens keeps bending whatever sits behind it.</p>
+      <p>Worth saying why a copy and not one of the flashier routes. A WebGL screenshot gives real optics but freezes the page into a stale, unselectable texture. Firefox&#x2019;s <code>element()</code> renders a live element as an image, exactly what we want, and exists in no other browser. Houdini&#x2019;s paint worklets are barred from reading existing pixels. Pure CSS never touches the backdrop at all, so it&#x2019;s a convincing photo of glass, not glass. A live copy through a real filter is the only route that&#x2019;s both honest and universal.</p>
+    </div>
+
+    <!-- Details -->
+    <div id="details" class="section section-block">
+      <h2>The details that bite</h2>
+      <p>That&#x2019;s the idea. Shipping it across browsers is a list of small, unobvious things, some ours and some flagged in Aave&#x2019;s write-up.</p>
+      <p>The displacement map has to reach the filter as a <code>blob:</code> URL. Every guide tells you to inline it as a <code>data:</code> URI; real WebKit silently refuses to load a <code>data:</code> URI inside <code>feImage</code>, the map never arrives, and the glass collapses to flat frost. Blobs load everywhere. Filters also run in linearRGB by default, which quietly changes how far a given grey value displaces, so we force sRGB and the map means what it says.</p>
+      <p>Two more Safari concessions, both called out in Aave&#x2019;s write-up: it caches a filter&#x2019;s output by its <code>id</code>, so a lens that animates needs a fresh id on every rebuild or it freezes on the first frame; and it caps how large a source graphic a filter will process, so the refraction copy is clipped to the lens box before it rasterises. Hand it a full-viewport scene and the filter silently produces nothing.</p>
+      <p>The browsers also get different chains. Chromium runs SVG filters on the GPU, so the full effect (three displacement passes at slightly different scales for a chromatic fringe at the rim, plus the specular pass) is essentially free. Safari runs them in software, and the backdrop here pans without stopping, so the filter re-rasterises every single frame; a second displacement pass for the fringe is more than that budget allows without dropping frames. So Safari runs one pass: the same dome refraction and the same rim highlight, minus the faint colour split. Same material, scaled to what each browser can afford, and it never falls back to a flat blur.</p>
+    </div>
+
+    <!-- One lens -->
+    <div id="onelens" class="section section-block">
+      <h2>One lens, alive</h2>
+      <p>There&#x2019;s a single lens, not one per menu. Move across the nav and it travels to the next item and resizes to that dropdown&#x2019;s shape, one pane of glass changing size and place as you go. The motion is spring-driven and interruptible, so a fast sweep across the triggers pulls it onto whichever item you land on, and the menu rows rise in a quick stagger once it arrives. What you read is continuity: glass held as one moving piece.</p>
+    </div>
+
+    <!-- Accessible -->
+    <div id="accessible" class="section section-block">
+      <h2>Accessible by default</h2>
+      <p>Refraction is motion and translucency, and not everyone wants either. With <code>prefers-reduced-motion</code> the lens stops animating; it cuts to its new position instead of springing. With <code>prefers-reduced-transparency</code>, the system-level &#x201C;I can&#x2019;t read text on glass&#x201D; switch, the effect drops the refraction entirely for an opaque panel, so labels sit on a solid surface at full contrast. The glass is an enhancement; the interface underneath it works without it.</p>
+    </div>
+
+    <!-- Engine -->
+    <div id="engine" class="section section-block">
+      <h2>The engine</h2>
+      <p>Two components and one filter primitive are the whole engine. <code>PrismScene</code> shares the backdrop; <code>PrismLens</code> bends a copy of it through the optics above. The refraction was never the hard part; getting honest backdrop pixels into a real filter, in every browser, was. Solve that once and the glass is only a few hundred lines. And what you get isn&#x2019;t a blur doing an impression of glass. It&#x2019;s real refraction, and it works in Safari and Firefox, not just Chrome.</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p class="footer-by"><strong>By Prism</strong></p>
+      <p class="footer-desc">Brands, interfaces, and motion for venture-backed companies</p>
+      <div class="footer-links">
+        <a href="https://prismglass.dev" class="a-link">Website</a>
+        <a href="https://x.com/prismglass" class="a-link">X / Twitter</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
