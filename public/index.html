@@ -116,10 +116,8 @@ body {
 /* Header */
 .header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; pointer-events: none; }
 .header-logo { display: inline-flex; align-items: center; font-size: 14px; pointer-events: auto; color: var(--header-text); }
-.header-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px 10px 12px; border-radius: 9999px; background: var(--pill-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: none; color: var(--pill-text); font: inherit; font-size: 14px; font-weight: 550; line-height: 1; white-space: nowrap; cursor: not-allowed; opacity: 0.5; pointer-events: auto; }
-
 /* Theme toggle */
-.theme-toggle { position: fixed; right: 24px; top: 16px; z-index: 60; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 9999px; background: var(--pill-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: none; color: var(--pill-text); cursor: pointer; font: inherit; font-size: 16px; line-height: 1; transition: background 0.3s, transform 0.2s; pointer-events: auto; }
+.theme-toggle { position: fixed; right: 24px; top: 16px; z-index: 60; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 9999px; background: var(--pill-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: none; color: var(--pill-text); cursor: pointer; line-height: 1; transition: background 0.3s, transform 0.2s; pointer-events: auto; }
 .theme-toggle:hover { transform: scale(1.08); }
 .theme-toggle:active { transform: scale(0.95); }
 
@@ -128,10 +126,6 @@ body {
 .hero.expanded { height: calc(100vh - 56px); }
 .hero-bg { position: absolute; inset: 0; }
 .hero-bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 1600px; background-size: cover; background-position: center top; transform: translateY(-416px); }
-.hero-nav-area { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; }
-.hero-nav { position: relative; z-index: 10; display: flex; align-items: center; gap: 4px; }
-.hero-nav-btn { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; background: transparent; border: none; cursor: default; color: var(--nav-text); font: inherit; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; text-shadow: var(--nav-text-shadow); }
-.hero-nav-btn svg { opacity: 0.8; }
 .hero-overlay { position: absolute; inset: 0; background: var(--overlay-bg); pointer-events: none; opacity: 0; transition: opacity 0.55s ease; }
 .hero.expanded .hero-overlay { opacity: 1; }
 
@@ -182,19 +176,16 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero-nav-btn { font-size: 13px; padding: 6px 10px; }
   .hero { height: 480px; }
   .hero-expand { top: 420px; }
   .hero.expanded ~ .hero-expand { top: calc(100vh - 80px); }
 }
 @media (max-width: 480px) {
   .header { padding: 12px 16px; }
-  .hero-nav { gap: 2px; }
-  .hero-nav-btn { font-size: 12px; padding: 6px 8px; }
   .section { padding: 0 16px; }
   .section-title { padding-top: 72px; }
   .section-title h1 { font-size: 20px; }
-  .theme-toggle { right: 16px; top: 12px; width: 34px; height: 34px; font-size: 14px; }
+  .theme-toggle { right: 16px; top: 12px; width: 34px; height: 34px; }
 }
 </style>
 </head>
@@ -208,39 +199,23 @@ body {
       <path d="M24.75 12.5C26.4586 12.5 27.8437 11.1569 27.8437 9.5C27.8437 7.84315 26.4586 6.5 24.75 6.5H22.6875C19.2702 6.5 16.5 9.18629 16.5 12.5H24.75Z" fill="currentColor"/>
     </svg>
   </span>
-  <button type="button" disabled class="header-btn" aria-label="GitHub repository, coming soon">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:block;flex-shrink:0">
-      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-    </svg>
-    Soon
-  </button>
+
 </header>
 
 <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle theme">
-  <span class="theme-icon-light">☀️</span>
-  <span class="theme-icon-dark" style="display:none">🌙</span>
+  <svg class="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block">
+    <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+  </svg>
+  <svg class="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
 </button>
 
 <div class="hero" id="hero">
   <div class="hero-bg">
     <div class="hero-bg-img" id="heroBg"></div>
   </div>
-  <div class="hero-nav-area">
-    <nav class="hero-nav" aria-label="Primary">
-      <span class="hero-nav-btn" aria-hidden="true">
-        Product
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.3333 6L8 11.3333L2.66667 6"/></svg>
-      </span>
-      <span class="hero-nav-btn" aria-hidden="true">
-        Resources
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.3333 6L8 11.3333L2.66667 6"/></svg>
-      </span>
-      <span class="hero-nav-btn" aria-hidden="true">
-        Company
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.3333 6L8 11.3333L2.66667 6"/></svg>
-      </span>
-    </nav>
-  </div>
+
   <div class="hero-overlay"></div>
 </div>
 
@@ -358,10 +333,10 @@ body {
     localStorage.setItem('prism-theme', theme);
     if (theme === 'dark') {
       lightIcon.style.display = 'none';
-      darkIcon.style.display = 'inline';
+      darkIcon.style.display = 'block';
       document.querySelector('meta[name="theme-color"]').content = '#16181d';
     } else {
-      lightIcon.style.display = 'inline';
+      lightIcon.style.display = 'block';
       darkIcon.style.display = 'none';
       document.querySelector('meta[name="theme-color"]').content = '#708696';
     }
