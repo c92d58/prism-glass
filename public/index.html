@@ -125,9 +125,9 @@ body {
 .hero { position: sticky; top: 0; overflow: hidden; z-index: 0; background: var(--hero-bg); height: 576px; transition: height 0.55s cubic-bezier(0.16,1,0.3,1); }
 .hero.expanded { height: calc(100vh - 56px); }
 .hero-bg { position: absolute; inset: 0; }
-.hero-bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 1600px; background-size: cover; background-position: center top; transform: translateY(-416px); }
-.hero-overlay { position: absolute; inset: 0; background: var(--overlay-bg); pointer-events: none; opacity: 0; transition: opacity 0.55s ease; }
-.hero.expanded .hero-overlay { opacity: 1; }
+.hero-bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 1600px; background-size: cover; background-position: center top; transform: translateY(-416px); transition: transform 0.55s cubic-bezier(0.16,1,0.3,1); }
+.hero.expanded .hero-bg-img { transform: translateY(0); }
+
 
 /* Expand button */
 .hero-expand { position: fixed; left: 0; right: 0; z-index: 5; display: flex; justify-content: center; pointer-events: none; top: 496px; transition: top 0.55s cubic-bezier(0.16,1,0.3,1); }
@@ -216,7 +216,6 @@ body {
     <div class="hero-bg-img" id="heroBg"></div>
   </div>
 
-  <div class="hero-overlay"></div>
 </div>
 
 <div class="hero-expand">
