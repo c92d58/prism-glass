@@ -125,8 +125,12 @@ body {
 .hero { position: sticky; top: 0; overflow: hidden; z-index: 0; background: var(--hero-bg); height: 576px; transition: height 0.55s cubic-bezier(0.16,1,0.3,1); }
 .hero.expanded { height: calc(100vh - 56px); }
 .hero-bg { position: absolute; inset: 0; }
-.hero-bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 1600px; background-size: cover; background-position: center top; transform: translateY(-416px); transition: transform 0.55s cubic-bezier(0.16,1,0.3,1); }
+.hero-bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 1600px; background-size: cover; background-position: center top; transform: translateY(-416px); transition: transform 0.55s cubic-bezier(0.16,1,0.3,1); animation: bgPan 40s ease-in-out infinite alternate; }
 .hero.expanded .hero-bg-img { transform: translateY(0); }
+@keyframes bgPan {
+  0% { background-position: 0% top; }
+  100% { background-position: 100% top; }
+}
 
 
 /* Expand button */
@@ -229,7 +233,7 @@ body {
       </svg>
     </span>
     <span class="expand-label-expand">Expand</span>
-    <span class="expand-label-contract">Collapse</span>
+    <span class="expand-label-contract">Minimize</span>
   </button>
 </div>
 
