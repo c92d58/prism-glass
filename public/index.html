@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -10,10 +10,10 @@
 <meta name="author" content="Prism"/>
 <meta name="keywords" content="prism,glass refraction,liquid glass CSS,backdrop-filter,feDisplacementMap,Safari refraction,glassmorphism"/>
 <meta name="robots" content="index, follow"/>
-<link rel="canonical" href="https://prismglass.dev"/>
+<link rel="canonical" href="https://prism.wahsun.org"/>
 <meta property="og:title" content="Liquid light for the web"/>
 <meta property="og:description" content="Every way to put liquid light on the web — the technique, the code, the engine."/>
-<meta property="og:url" content="https://prismglass.dev"/>
+<meta property="og:url" content="https://prism.wahsun.org"/>
 <meta property="og:site_name" content="Prism"/>
 <meta property="og:image" content="/og.jpg"/>
 <meta property="og:image:type" content="image/jpeg"/>
@@ -29,199 +29,672 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet"/>
 <style>
+/* ── CSS Variables (Light / Dark) ── */
+:root {
+  --hero-bg: #0b0e13;
+  --header-text: rgba(255,255,255,0.96);
+  --nav-text: #fff;
+  --nav-text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  --pill-bg: rgba(0,0,0,0.22);
+  --pill-text: rgba(255,255,255,0.96);
+  --content-bg: #ffffff;
+  --content-shadow: 0 -1px 1px rgba(15,18,24,0.05), 0 -8px 20px -6px rgba(15,18,24,0.18), 0 -24px 60px -18px rgba(15,18,24,0.28);
+  --heading-color: rgba(23,23,23,0.92);
+  --body-color: rgba(23,23,23,0.62);
+  --code-bg: rgba(0,0,0,0.04);
+  --inline-code-bg: rgba(0,0,0,0.05);
+  --inline-code-color: rgba(23,23,23,0.92);
+  --link-color: rgba(23,23,23,0.92);
+  --link-underline: rgba(0,0,0,0.32);
+  --footer-sub: rgba(23,23,23,0.52);
+  --overlay-bg: #0b0e13;
+  --dropdown-bg: rgba(255,255,255,0.08);
+  --dropdown-border: rgba(255,255,255,0.12);
+  --dropdown-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  --dropdown-text: rgba(255,255,255,0.96);
+  --dropdown-desc: rgba(255,255,255,0.55);
+  --dropdown-hover: rgba(255,255,255,0.12);
+  --dropdown-item-border: rgba(255,255,255,0.08);
+  --toggle-bg: rgba(0,0,0,0.22);
+  --toggle-text: rgba(255,255,255,0.96);
+  --selection-bg: rgba(255,69,2,0.22);
+  --code-c: #7C7F93;
+  --code-k: #8839EF;
+  --code-n: #4C4F69;
+  --code-o: #179299;
+  --code-s: #FE640B;
+  --code-f: #1E66F5;
+  --code-t: #EA76CB;
+  --code-a: #DF8E1D;
+  --focus-ring: rgba(0,0,0,0.45);
+}
+[data-theme="dark"] {
+  --hero-bg: #0b0e13;
+  --header-text: rgba(255,255,255,0.96);
+  --nav-text: #fff;
+  --nav-text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  --pill-bg: rgba(0,0,0,0.22);
+  --pill-text: rgba(255,255,255,0.96);
+  --content-bg: #16181d;
+  --content-shadow: 0 -1px 1px rgba(15,18,24,0.15), 0 -8px 20px -6px rgba(0,0,0,0.4), 0 -24px 60px -18px rgba(0,0,0,0.5);
+  --heading-color: rgba(255,255,255,0.92);
+  --body-color: rgba(255,255,255,0.55);
+  --code-bg: rgba(255,255,255,0.04);
+  --inline-code-bg: rgba(255,255,255,0.08);
+  --inline-code-color: rgba(255,255,255,0.88);
+  --link-color: rgba(255,255,255,0.88);
+  --link-underline: rgba(255,255,255,0.28);
+  --footer-sub: rgba(255,255,255,0.38);
+  --overlay-bg: #0b0e13;
+  --dropdown-bg: rgba(0,0,0,0.45);
+  --dropdown-border: rgba(255,255,255,0.1);
+  --dropdown-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  --dropdown-text: rgba(255,255,255,0.96);
+  --dropdown-desc: rgba(255,255,255,0.5);
+  --dropdown-hover: rgba(255,255,255,0.1);
+  --dropdown-item-border: rgba(255,255,255,0.06);
+  --toggle-bg: rgba(0,0,0,0.22);
+  --toggle-text: rgba(255,255,255,0.96);
+  --selection-bg: rgba(255,69,2,0.22);
+  --code-c: #939ab7;
+  --code-k: #cba6f7;
+  --code-n: #cdd6f4;
+  --code-o: #94e2d5;
+  --code-s: #fab387;
+  --code-f: #89b4fa;
+  --code-t: #f5c2e7;
+  --code-a: #f9e2af;
+  --focus-ring: rgba(255,255,255,0.45);
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { -webkit-text-size-adjust: 100%; tab-size: 4; }
-body { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; background: #0b0e13; color: rgba(23,23,23,0.62); line-height: 1.5; }
-::selection { background: rgba(255,69,2,0.22); }
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: var(--hero-bg);
+  color: var(--body-color);
+  line-height: 1.5;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+::selection { background: var(--selection-bg); }
 :focus { outline: none; }
-:focus-visible { outline: 2px solid rgba(0,0,0,0.45); outline-offset: 2px; border-radius: 4px; }
+:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; border-radius: 4px; }
 
-/* Code blocks */
 .code-block { margin: 0; padding: 16px 18px; overflow-x: auto; line-height: 1.65; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: transparent !important; }
 .code-block code { font-family: inherit; background: transparent; padding: 0; font-size: 13px; }
+.a-link { position: relative; color: var(--link-color); text-decoration: none; white-space: nowrap; line-height: 1.15; }
+.a-link::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: var(--link-underline); }
 
-/* Links */
-.a-link { position: relative; color: rgba(23,23,23,0.92); text-decoration: none; white-space: nowrap; line-height: 1.15; }
-.a-link::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: rgba(0,0,0,0.32); }
-
-/* Header */
+/* ── Header ── */
 .header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; pointer-events: none; }
-.header-logo { display: inline-flex; align-items: center; font-size: 14px; pointer-events: auto; color: rgba(255,255,255,0.96); }
-.header-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px 10px 12px; border-radius: 9999px; background: rgba(0,0,0,0.22); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: none; color: rgba(255,255,255,0.96); font: inherit; font-size: 14px; font-weight: 550; line-height: 1; white-space: nowrap; opacity: 0.5; pointer-events: auto; }
+.header-left { display: flex; align-items: center; gap: 12px; pointer-events: auto; }
+.header-logo { display: inline-flex; align-items: center; font-size: 14px; color: var(--header-text); }
+.header-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px 10px 12px; border-radius: 9999px; background: var(--pill-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: none; color: var(--pill-text); font: inherit; font-size: 14px; font-weight: 550; line-height: 1; white-space: nowrap; opacity: 0.5; pointer-events: auto; transition: opacity 0.3s; }
+.header-btn.enabled { opacity: 1; cursor: pointer; }
+.header-btn.enabled:hover { background: rgba(255,255,255,0.15); }
 
-/* Hero */
-.hero { position: sticky; top: 0; overflow: hidden; z-index: 0; background: #0b0e13; height: 576px; }
+/* ── Theme toggle ── */
+.theme-toggle { position: fixed; right: 80px; top: 16px; z-index: 60; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 9999px; background: var(--pill-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: none; color: var(--pill-text); cursor: pointer; font: inherit; font-size: 16px; line-height: 1; transition: background 0.3s, transform 0.2s; pointer-events: auto; }
+.theme-toggle:hover { transform: scale(1.08); }
+.theme-toggle:active { transform: scale(0.95); }
+
+/* ── Hero ── */
+.hero { position: sticky; top: 0; overflow: hidden; z-index: 0; background: var(--hero-bg); height: 576px; }
 .hero-bg { position: absolute; inset: 0; }
 .hero-bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 1200px; background-image: url('/bg.webp'); background-size: cover; background-position: center top; transform: translateY(-312px); }
-.hero-nav-area { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; }
+.hero-nav-area { position: absolute; inset: 0; display: grid; place-items: center; overflow: visible; }
 .hero-nav { position: relative; z-index: 10; display: flex; align-items: center; gap: 4px; }
-.hero-nav button { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; background: transparent; border: none; cursor: pointer; color: #fff; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; text-shadow: 0 1px 2px rgba(0,0,0,0.25); }
-.hero-nav button svg { opacity: 0.8; }
+.hero-nav-btn { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; background: transparent; border: none; cursor: pointer; color: var(--nav-text); font: inherit; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; text-shadow: var(--nav-text-shadow); transition: background 0.2s; }
+.hero-nav-btn:hover { background: rgba(255,255,255,0.08); }
+.hero-nav-btn.active { background: rgba(255,255,255,0.12); }
+.hero-nav-btn svg { opacity: 0.8; transition: transform 0.2s; }
+.hero-nav-btn.active svg { transform: rotate(180deg); }
 .hero-expand { position: absolute; left: 0; right: 0; z-index: 5; display: flex; justify-content: center; pointer-events: none; top: 496px; }
-.hero-expand-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px 10px 12px; background: rgba(0,0,0,0.22); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: none; color: rgba(255,255,255,0.96); font: inherit; font-size: 14px; font-weight: 550; line-height: 1; cursor: pointer; white-space: nowrap; border-radius: 9999px; opacity: 1; pointer-events: auto; }
-.hero-overlay { position: absolute; inset: 0; background: #0b0e13; pointer-events: none; opacity: 0; }
+.hero-expand-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px 10px 12px; background: var(--pill-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: none; color: var(--pill-text); font: inherit; font-size: 14px; font-weight: 550; line-height: 1; cursor: pointer; white-space: nowrap; border-radius: 9999px; opacity: 1; pointer-events: auto; }
+.hero-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 4; pointer-events: none; opacity: 0; transition: opacity 0.25s; }
+.hero-overlay.visible { opacity: 1; }
 
-/* Content wrapper */
-.content-wrap { position: relative; z-index: 10; margin-top: -28px; min-height: 100vh; background: #ffffff; border-top-left-radius: 32px; border-top-right-radius: 32px; box-shadow: 0 -1px 1px rgba(15,18,24,0.05), 0 -8px 20px -6px rgba(15,18,24,0.18), 0 -24px 60px -18px rgba(15,18,24,0.28); }
+/* ── Glass Dropdown ── */
+.glass-dropdown-wrap { position: absolute; z-index: 15; pointer-events: none; opacity: 0; transform: translateY(8px); transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1); }
+.glass-dropdown-wrap.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.glass-dropdown {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--dropdown-shadow);
+  background: var(--dropdown-bg);
+  backdrop-filter: blur(40px) saturate(1.5);
+  -webkit-backdrop-filter: blur(40px) saturate(1.5);
+  border: 1px solid var(--dropdown-border);
+  min-width: 240px;
+}
+.glass-dropdown::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: radial-gradient(ellipse at top, rgba(255,255,255,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 2;
+}
+.glass-bg-clone {
+  position: absolute;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  filter: url(#glass-refract);
+}
+.glass-dropdown-content { position: relative; z-index: 3; padding: 8px; }
+.glass-dropdown-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 14px; border-radius: 12px;
+  color: var(--dropdown-text); text-decoration: none;
+  transition: background 0.15s; cursor: pointer;
+}
+.glass-dropdown-item:hover { background: var(--dropdown-hover); }
+.glass-dropdown-item-icon { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.1); flex-shrink: 0; font-size: 15px; }
+.glass-dropdown-item-text { flex: 1; min-width: 0; }
+.glass-dropdown-item-title { font-size: 14px; font-weight: 550; line-height: 1.3; }
+.glass-dropdown-item-desc { font-size: 12px; color: var(--dropdown-desc); margin-top: 2px; line-height: 1.4; }
+.glass-dropdown-sep { height: 1px; background: var(--dropdown-item-border); margin: 4px 8px; }
+
+/* ── Content wrapper ── */
+.content-wrap {
+  position: relative; z-index: 10; margin-top: -28px; min-height: 100vh;
+  background: var(--content-bg);
+  border-top-left-radius: 32px; border-top-right-radius: 32px;
+  box-shadow: var(--content-shadow);
+  transition: background 0.3s ease;
+}
 .content-inner { position: relative; max-width: 1080px; margin: 0 auto; }
 
-/* Section */
+/* ── Section ── */
 .section { max-width: 640px; margin: 0 auto; padding: 0 24px; }
 .section-title { padding-top: 104px; }
-.section-title h1 { font-size: 24px; font-weight: 550; color: rgba(23,23,23,0.92); letter-spacing: -0.4px; line-height: 1.2; margin: 0; text-wrap: balance; }
+.section-title h1 { font-size: 24px; font-weight: 550; color: var(--heading-color); letter-spacing: -0.4px; line-height: 1.2; margin: 0; text-wrap: balance; }
 .section-block { margin-top: 28px; }
-.section-block h2 { font-size: 15px; font-weight: 450; color: rgba(23,23,23,0.92); letter-spacing: -0.1px; margin: 80px 0 0; text-wrap: balance; }
-.section-block p { font-size: 14px; line-height: 1.72; letter-spacing: 0.1px; color: rgba(23,23,23,0.62); margin: 16px 0 0; text-wrap: pretty; }
-.section-block pre { margin: 22px 0 0; border-radius: 16px; overflow: hidden; background: rgba(0,0,0,0.04); font-size: 13px; }
-.section-block code { font-size: 0.84em; background: rgba(0,0,0,0.05); border-radius: 6px; padding: 3px 5px; color: rgba(23,23,23,0.92); }
+.section-block h2 { font-size: 15px; font-weight: 450; color: var(--heading-color); letter-spacing: -0.1px; margin: 80px 0 0; text-wrap: balance; }
+.section-block p { font-size: 14px; line-height: 1.72; letter-spacing: 0.1px; color: var(--body-color); margin: 16px 0 0; text-wrap: pretty; }
+.section-block pre { margin: 22px 0 0; border-radius: 16px; overflow: hidden; background: var(--code-bg); font-size: 13px; }
+.section-block code { font-size: 0.84em; background: var(--inline-code-bg); border-radius: 6px; padding: 3px 5px; color: var(--inline-code-color); }
 .section-block pre code { font-size: 13px; background: transparent; padding: 0; border-radius: 0; color: inherit; }
+.inline-code { font-size: 0.84em; background: var(--inline-code-bg); border-radius: 6px; padding: 3px 5px; color: var(--inline-code-color); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
 
-/* Footer */
+/* ── Footer ── */
 .footer { max-width: 640px; margin: 0 auto; padding: 0 24px 80px; }
-.footer-by { font-size: 14px; line-height: 1.72; letter-spacing: 0.1px; color: rgba(23,23,23,0.62); margin: 80px 0 0; }
-.footer-by strong { color: rgba(23,23,23,0.92); font-weight: 550; }
-.footer-desc { font-size: 14px; line-height: 1.55; color: rgba(23,23,23,0.52); margin: 8px 0 0; max-width: 260px; }
+.footer-by { font-size: 14px; line-height: 1.72; letter-spacing: 0.1px; color: var(--body-color); margin: 80px 0 0; }
+.footer-by strong { color: var(--heading-color); font-weight: 550; }
+.footer-desc { font-size: 14px; line-height: 1.55; color: var(--footer-sub); margin: 8px 0 0; max-width: 260px; }
 .footer-links { display: flex; gap: 12px; margin-top: 16px; }
 .footer-links a { font-size: 14px; }
+
+/* ── Expand panel ── */
+.expand-panel {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 45;
+  pointer-events: none; opacity: 0;
+  background: rgba(11,14,19,0.92);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.35s ease;
+}
+.expand-panel.visible { opacity: 1; pointer-events: auto; }
+.expand-panel-inner { text-align: center; color: rgba(255,255,255,0.9); }
+.expand-panel-inner h2 { font-size: 28px; font-weight: 300; letter-spacing: -0.5px; margin-bottom: 8px; }
+.expand-panel-inner p { font-size: 15px; color: rgba(255,255,255,0.5); }
+.expand-close { position: absolute; top: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%; border: none; background: rgba(255,255,255,0.1); color: #fff; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.expand-close:hover { background: rgba(255,255,255,0.2); }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hero-nav-btn { font-size: 13px; padding: 6px 10px; }
+  .hero { height: 480px; }
+  .hero-expand { top: 400px; }
+  .theme-toggle { right: 60px; }
+  .glass-dropdown { min-width: 200px; }
+}
+@media (max-width: 480px) {
+  .header { padding: 12px 16px; }
+  .hero-nav { gap: 2px; }
+  .hero-nav-btn { font-size: 12px; padding: 6px 8px; }
+  .section { padding: 0 16px; }
+  .section-title { padding-top: 72px; }
+  .section-title h1 { font-size: 20px; }
+  .theme-toggle { right: 50px; top: 12px; width: 34px; height: 34px; font-size: 14px; }
+}
 </style>
 </head>
 <body class="antialiased">
+
+<!-- Hidden SVG filters for the glass refraction effect -->
+<svg width="0" height="0" style="position:absolute;pointer-events:none;">
+  <defs>
+    <filter id="glass-refract" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <!-- Subtle noise-based displacement for liquid feel -->
+      <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" seed="3" result="noise"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.12 0" in="noise" result="noiseAlpha"/>
+      <feDisplacementMap in="SourceGraphic" in2="noiseAlpha" scale="18" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <!-- Bright rim highlight via specular -->
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feComponentTransfer in="blur" result="bright">
+        <feFuncR type="linear" slope="1.08" intercept="0.02"/>
+        <feFuncG type="linear" slope="1.08" intercept="0.02"/>
+        <feFuncB type="linear" slope="1.08" intercept="0.02"/>
+      </feComponentTransfer>
+      <feComposite in="bright" in2="displaced" operator="in" result="brightMasked"/>
+      <feComposite in="brightMasked" in2="displaced" operator="over"/>
+    </filter>
+  </defs>
+</svg>
+
 <header class="header">
-  <span class="header-logo">
-    <svg width="33" height="13" viewBox="0 0 33 13" fill="none" aria-hidden="true" style="display:block">
-      <path d="M16.5 6.5C16.5 3.18629 13.7298 0.5 10.3125 0.5H6.1875C2.77024 0.5 0 3.18629 0 6.5C0 9.81371 2.77024 12.5 6.1875 12.5H10.3125C13.7298 12.5 16.5 9.81371 16.5 6.5Z" fill="currentColor"/>
-      <path d="M16.5 0.5H29.9062C31.6149 0.5 33 1.84315 33 3.5C33 5.15685 31.6149 6.5 29.9062 6.5H22.6875C19.2702 6.5 16.5 3.81371 16.5 0.5Z" fill="currentColor"/>
-      <path d="M24.75 12.5C26.4586 12.5 27.8437 11.1569 27.8437 9.5C27.8437 7.84315 26.4586 6.5 24.75 6.5H22.6875C19.2702 6.5 16.5 9.18629 16.5 12.5H24.75Z" fill="currentColor"/>
-    </svg>
-  </span>
-  <button type="button" disabled class="header-btn" aria-label="GitHub repository">
+  <div class="header-left">
+    <span class="header-logo">
+      <svg width="33" height="13" viewBox="0 0 33 13" fill="none" aria-hidden="true" style="display:block">
+        <path d="M16.5 6.5C16.5 3.18629 13.7298 0.5 10.3125 0.5H6.1875C2.77024 0.5 0 3.18629 0 6.5C0 9.81371 2.77024 12.5 6.1875 12.5H10.3125C13.7298 12.5 16.5 9.81371 16.5 6.5Z" fill="currentColor"/>
+        <path d="M16.5 0.5H29.9062C31.6149 0.5 33 1.84315 33 3.5C33 5.15685 31.6149 6.5 29.9062 6.5H22.6875C19.2702 6.5 16.5 3.81371 16.5 0.5Z" fill="currentColor"/>
+        <path d="M24.75 12.5C26.4586 12.5 27.8437 11.1569 27.8437 9.5C27.8437 7.84315 26.4586 6.5 24.75 6.5H22.6875C19.2702 6.5 16.5 9.18629 16.5 12.5H24.75Z" fill="currentColor"/>
+      </svg>
+    </span>
+  </div>
+  <button type="button" class="header-btn enabled" aria-label="GitHub repository" onclick="window.open('https://github.com/c92d58/prism-glass','_blank')">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:block;flex-shrink:0">
       <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
     </svg>
-    Soon
+    GitHub
   </button>
 </header>
 
-<div class="hero">
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle theme">
+  <span class="theme-icon-light">☀️</span>
+  <span class="theme-icon-dark" style="display:none">🌙</span>
+</button>
+
+<div class="hero" id="hero">
   <div class="hero-bg">
-    <div class="hero-bg-img"></div>
+    <div class="hero-bg-img" id="heroBg"></div>
   </div>
   <div class="hero-nav-area">
-    <nav class="hero-nav" aria-label="Primary">
-      <button type="button" aria-expanded="false">
+    <nav class="hero-nav" id="heroNav" aria-label="Primary">
+      <button type="button" class="hero-nav-btn" data-menu="product" aria-expanded="false">
         Product
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.3333 6L8 11.3333L2.66667 6"/></svg>
       </button>
-      <button type="button" aria-expanded="false">
+      <button type="button" class="hero-nav-btn" data-menu="resources" aria-expanded="false">
         Resources
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.3333 6L8 11.3333L2.66667 6"/></svg>
       </button>
-      <button type="button" aria-expanded="false">
+      <button type="button" class="hero-nav-btn" data-menu="company" aria-expanded="false">
         Company
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.3333 6L8 11.3333L2.66667 6"/></svg>
       </button>
     </nav>
   </div>
+
+  <!-- Glass dropdown (positioned by JS) -->
+  <div class="glass-dropdown-wrap" id="glassDropdown">
+    <div class="glass-dropdown" id="glassDropdownInner">
+      <div class="glass-bg-clone" id="glassBgClone"></div>
+      <div class="glass-dropdown-content" id="glassDropdownContent"></div>
+    </div>
+  </div>
+
   <div class="hero-expand">
-    <button type="button" class="hero-expand-btn" aria-label="Expand">
+    <button type="button" class="hero-expand-btn" id="expandBtn" aria-label="Expand">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0">
         <path d="M5.5 2.5H3.83333C3.09695 2.5 2.5 3.09695 2.5 3.83333V5.5M10.5 2.5H12.1667C12.903 2.5 13.5 3.09695 13.5 3.83333V5.5M13.5 10.5V12.1667C13.5 12.903 12.903 13.5 12.1667 13.5H10.5M5.5 13.5H3.83333C3.09695 13.5 2.5 12.903 2.5 12.1667V10.5"/>
       </svg>
       Expand
     </button>
   </div>
-  <div class="hero-overlay"></div>
+  <div class="hero-overlay" id="heroOverlay"></div>
+</div>
+
+<!-- Expand full-screen panel -->
+<div class="expand-panel" id="expandPanel">
+  <button class="expand-close" id="expandClose">&times;</button>
+  <div class="expand-panel-inner">
+    <h2>The glass effect</h2>
+    <p>Hover the nav items above to see the refraction dropdown</p>
+  </div>
 </div>
 
 <div class="content-wrap">
   <div class="content-inner">
 
-    <!-- Title -->
-    <div class="section section-title">
-      <h1>Liquid light for the web</h1>
-    </div>
+    <div class="section section-title"><h1>Liquid light for the web</h1></div>
 
-    <!-- Overview -->
     <div id="overview" class="section section-block">
       <p>Light refracts. Passing through a crystal it bends, hardest at the rim, so the world behind it warps and brightens along its edge. That bend is the whole tell. Take it away and you have a frosted panel, which is what nearly every "liquid glass" on the web actually is: a blur with a bright border. Blur isn't glass.</p>
       <p>We wanted the bend itself, computed from the optics rather than faked with a gradient, and working in every browser, Safari and Firefox included, not just Chromium. This walks through both halves: the physics that shapes the refraction, and the one move that gets it running everywhere. The dropdown pinned above is the result; it bends the photo looping behind it, so hover a nav item to open it.</p>
     </div>
 
-    <!-- Optics -->
     <div id="optics" class="section section-block">
       <h2>The bend is computed, not painted</h2>
       <p>The whole effect is one value per pixel: how far to shove the backdrop sideways there. Paint that as a soft radial gradient and you get something glassy enough, which is where most demos stop. We compute it from the surface instead, so the distortion is the one a real lens would make.</p>
       <p>We model the lens as a physical object: a convex squircle dome, flat across the centre and curving down through a thin rim band, the same superellipse Apple rounds its corners with. For each pixel we take that dome&#x2019;s slope, refract a straight-down view ray through it with Snell&#x2019;s law at an index of 1.5 (real glass), and the sideways throw of the bent ray becomes the displacement, aimed along the surface normal we read off a signed-distance field of the rounded rectangle. The geometry does the rest. The slope is zero in the flat centre and steepens toward the edge, so all the bending concentrates at the rim while the centre stays clear, which is exactly how a thick piece of real glass behaves. A blue channel carries the specular height that becomes the bright rim light. No invented curve, just optics.</p>
-      <pre class="code-block" tabindex="0"><code><span style="color:#7C7F93;font-style:italic">// The surface is a squircle dome. x = depth in from the rim</span>
-<span style="color:#7C7F93;font-style:italic">// (0 = edge, 1 = flat centre); slope = the surface tilt.</span>
-<span style="color:#8839EF">const</span> slope  <span style="color:#179299">=</span> (<span style="color:#FE640B">1</span> <span style="color:#179299">-</span> x) <span style="color:#179299">**</span> <span style="color:#FE640B">3</span> <span style="color:#179299">/</span> (<span style="color:#FE640B">1</span> <span style="color:#179299">-</span> (<span style="color:#FE640B">1</span> <span style="color:#179299">-</span> x) <span style="color:#179299">**</span> <span style="color:#FE640B">4</span>) <span style="color:#179299">**</span> <span style="color:#FE640B">0.75</span>
-<span style="color:#8839EF">const</span> thetaI <span style="color:#179299">=</span> Math<span style="color:#179299">.</span><span style="color:#1E66F5">atan</span>(slope)
-<span style="color:#8839EF">const</span> thetaT <span style="color:#179299">=</span> Math<span style="color:#179299">.</span><span style="color:#1E66F5">asin</span>(Math<span style="color:#179299">.</span><span style="color:#1E66F5">sin</span>(thetaI) <span style="color:#179299">/</span> <span style="color:#FE640B">1.5</span>) <span style="color:#7C7F93;font-style:italic">// Snell's law</span>
-<span style="color:#8839EF">const</span> bend   <span style="color:#179299">=</span> Math<span style="color:#179299">.</span><span style="color:#1E66F5">sin</span>(thetaI <span style="color:#179299">-</span> thetaT) <span style="color:#7C7F93;font-style:italic">// 0 centre, max at rim</span>
+      <pre class="code-block" tabindex="0"><code><span style="color:var(--code-c);font-style:italic">// The surface is a squircle dome. x = depth in from the rim</span>
+<span style="color:var(--code-c);font-style:italic">// (0 = edge, 1 = flat centre); slope = the surface tilt.</span>
+<span style="color:var(--code-k)">const</span><span style="color:var(--code-n)"> slope  </span><span style="color:var(--code-o)">=</span><span style="color:var(--code-n)"> (</span><span style="color:var(--code-s)">1</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-o)">-</span><span style="color:var(--code-n)"> x) </span><span style="color:var(--code-o)">**</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-s)">3</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-o)">/</span><span style="color:var(--code-n)"> (</span><span style="color:var(--code-s)">1</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-o)">-</span><span style="color:var(--code-n)"> (</span><span style="color:var(--code-s)">1</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-o)">-</span><span style="color:var(--code-n)"> x) </span><span style="color:var(--code-o)">**</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-s)">4</span><span style="color:var(--code-n)">) </span><span style="color:var(--code-o)">**</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-s)">0.75</span>
+<span style="color:var(--code-k)">const</span><span style="color:var(--code-n)"> thetaI </span><span style="color:var(--code-o)">=</span><span style="color:var(--code-n)"> Math</span><span style="color:var(--code-o)">.</span><span style="color:var(--code-f)">atan</span><span style="color:var(--code-n)">(slope)</span>
+<span style="color:var(--code-k)">const</span><span style="color:var(--code-n)"> thetaT </span><span style="color:var(--code-o)">=</span><span style="color:var(--code-n)"> Math</span><span style="color:var(--code-o)">.</span><span style="color:var(--code-f)">asin</span><span style="color:var(--code-n)">(Math</span><span style="color:var(--code-o)">.</span><span style="color:var(--code-f)">sin</span><span style="color:var(--code-n)">(thetaI) </span><span style="color:var(--code-o)">/</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-s)">1.5</span><span style="color:var(--code-n)">) </span><span style="color:var(--code-c);font-style:italic">// Snell's law</span>
+<span style="color:var(--code-k)">const</span><span style="color:var(--code-n)"> bend   </span><span style="color:var(--code-o)">=</span><span style="color:var(--code-n)"> Math</span><span style="color:var(--code-o)">.</span><span style="color:var(--code-f)">sin</span><span style="color:var(--code-n)">(thetaI </span><span style="color:var(--code-o)">-</span><span style="color:var(--code-n)"> thetaT) </span><span style="color:var(--code-c);font-style:italic">// 0 centre, max at rim</span>
 
-<span style="color:#7C7F93;font-style:italic">// aim the bend along the rounded-rect SDF normal (nx, ny), then</span>
-<span style="color:#7C7F93;font-style:italic">// write it to the map's R/G channels (128 = leave it put)</span>
-map<span style="color:#179299">.</span>r <span style="color:#179299">=</span> <span style="color:#FE640B">128</span> <span style="color:#179299">+</span> nx <span style="color:#179299">*</span> bend <span style="color:#179299">*</span> gain
-map<span style="color:#179299">.</span>g <span style="color:#179299">=</span> <span style="color:#FE640B">128</span> <span style="color:#179299">+</span> ny <span style="color:#179299">*</span> bend <span style="color:#179299">*</span> gain</code></pre>
-      <p>That map drives one SVG filter, <code>feDisplacementMap</code>: for each pixel it looks up the offset stored in the map and moves the content there by exactly that much. We wrote those offsets straight from the refraction math, so what comes out is the bend real glass makes, not a gradient tuned to look close.</p>
+<span style="color:var(--code-c);font-style:italic">// aim the bend along the rounded-rect SDF normal (nx, ny), then</span>
+<span style="color:var(--code-c);font-style:italic">// write it to the map's R/G channels (128 = leave it put)</span>
+<span style="color:var(--code-n)">map</span><span style="color:var(--code-o)">.</span><span style="color:var(--code-n)">r </span><span style="color:var(--code-o)">=</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-s)">128</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-o)">+</span><span style="color:var(--code-n)"> nx </span><span style="color:var(--code-o)">*</span><span style="color:var(--code-n)"> bend </span><span style="color:var(--code-o)">*</span><span style="color:var(--code-n)"> gain</span>
+<span style="color:var(--code-n)">map</span><span style="color:var(--code-o)">.</span><span style="color:var(--code-n)">g </span><span style="color:var(--code-o)">=</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-s)">128</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-o)">+</span><span style="color:var(--code-n)"> ny </span><span style="color:var(--code-o)">*</span><span style="color:var(--code-n)"> bend </span><span style="color:var(--code-o)">*</span><span style="color:var(--code-n)"> gain</span></code></pre>
+      <p>That map drives one SVG filter, <span class="inline-code">feDisplacementMap</span>: for each pixel it looks up the offset stored in the map and moves the content there by exactly that much. We wrote those offsets straight from the refraction math, so what comes out is the bend real glass makes, not a gradient tuned to look close.</p>
     </div>
 
-    <!-- Cross-browser -->
     <div id="crossbrowser" class="section section-block">
       <h2>Refract a copy, not the backdrop</h2>
-      <p>The optics were the easy half. The hard half is a pure web problem: getting real backdrop pixels into that filter in every browser. The obvious route is a trap. <code>backdrop-filter</code> will run an SVG displacement filter, but only in Chromium. Safari and Firefox accept the property, silently drop the SVG part, and leave you a flat blur. That one gap is why most web &#x201C;liquid glass&#x201D; is glass in Chrome and frosting everywhere else.</p>
-      <p>The way through is to stop filtering the live backdrop and filter a copy of it. <code>feDisplacementMap</code> runs through the ordinary CSS <code>filter</code> property everywhere; only <code>backdrop-filter</code> is Chromium-only. So we render the backdrop a second time, counter-position that copy 1:1 under the lens, and bend the copy. The real interface beneath is never filtered; it stays fully interactive while the bent copy lies over it as nothing but light. We took this move, filtering a copy rather than the backdrop, from Aave&#x2019;s write-up, <a href="https://aave.com/design/building-glass-for-the-web" target="_blank" rel="noopener noreferrer" class="a-link">Building Glass for the Web</a>, which is where the credit belongs. The optics that shape the map are ours; this is the architecture that lets them run anywhere without a WebGL pipeline or a screenshot.</p>
-      <pre class="code-block" tabindex="0"><code><span style="color:#179299">&lt;</span><span style="color:#EA76CB">PrismScene</span> <span style="color:#DF8E1D">content</span><span style="color:#179299">=</span><span style="color:#7C7F93">{</span><span style="color:#179299">&lt;</span><span style="color:#EA76CB">Backdrop</span> <span style="color:#179299">/&gt;</span><span style="color:#7C7F93">}</span><span style="color:#179299">&gt;</span>
-  <span style="color:#179299">&lt;</span><span style="color:#1E66F5">nav</span><span style="color:#179299">&gt;</span><span style="color:#4C4F69">{triggers}</span><span style="color:#179299">&lt;/</span><span style="color:#1E66F5">nav</span><span style="color:#179299">&gt;</span>
+      <p>The optics were the easy half. The hard half is a pure web problem: getting real backdrop pixels into that filter in every browser. The obvious route is a trap. <span class="inline-code">backdrop-filter</span> will run an SVG displacement filter, but only in Chromium. Safari and Firefox accept the property, silently drop the SVG part, and leave you a flat blur. That one gap is why most web &#x201C;liquid glass&#x201D; is glass in Chrome and frosting everywhere else.</p>
+      <p>The way through is to stop filtering the live backdrop and filter a copy of it. <span class="inline-code">feDisplacementMap</span> runs through the ordinary CSS <span class="inline-code">filter</span> property everywhere; only <span class="inline-code">backdrop-filter</span> is Chromium-only. So we render the backdrop a second time, counter-position that copy 1:1 under the lens, and bend the copy. The real interface beneath is never filtered; it stays fully interactive while the bent copy lies over it as nothing but light. We took this move, filtering a copy rather than the backdrop, from Aave&#x2019;s write-up, <a href="https://aave.com/design/building-glass-for-the-web" target="_blank" rel="noopener noreferrer" class="a-link">Building Glass for the Web</a>, which is where the credit belongs. The optics that shape the map are ours; this is the architecture that lets them run anywhere without a WebGL pipeline or a screenshot.</p>
+      <pre class="code-block" tabindex="0"><code><span style="color:var(--code-o)">&lt;</span><span style="color:var(--code-t)">PrismScene</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-a)">content</span><span style="color:var(--code-o)">=</span><span style="color:var(--code-c)">{</span><span style="color:var(--code-o)">&lt;</span><span style="color:var(--code-t)">Backdrop</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-o)">/&gt;</span><span style="color:var(--code-c)">}</span><span style="color:var(--code-o)">&gt;</span>
+  <span style="color:var(--code-o)">&lt;</span><span style="color:var(--code-f)">nav</span><span style="color:var(--code-o)">&gt;</span><span style="color:var(--code-n)">{triggers}</span><span style="color:var(--code-o)">&lt;/</span><span style="color:var(--code-f)">nav</span><span style="color:var(--code-o)">&gt;</span>
 
-  <span style="color:#4C4F69">{open </span><span style="color:#179299">&amp;&amp;</span><span style="color:#4C4F69"> (</span>
-    <span style="color:#179299">&lt;</span><span style="color:#EA76CB">PrismLens</span> <span style="color:#DF8E1D">x</span><span style="color:#179299">=</span><span style="color:#4C4F69">{x}</span> <span style="color:#DF8E1D">y</span><span style="color:#179299">=</span><span style="color:#4C4F69">{y}</span> <span style="color:#DF8E1D">width</span><span style="color:#179299">=</span><span style="color:#FE640B">{W}</span> <span style="color:#DF8E1D">height</span><span style="color:#179299">=</span><span style="color:#4C4F69">{h}</span><span style="color:#179299">&gt;</span>
-      <span style="color:#4C4F69">{menuItems}</span>
-    <span style="color:#179299">&lt;/</span><span style="color:#EA76CB">PrismLens</span><span style="color:#179299">&gt;</span>
-  <span style="color:#4C4F69">)}</span>
-<span style="color:#179299">&lt;/</span><span style="color:#EA76CB">PrismScene</span><span style="color:#179299">&gt;</span></code></pre>
-      <p><code>PrismScene</code> renders the backdrop once and shares it; <code>PrismLens</code> drops a counter-positioned copy into the lens box and bends it. Because the copy tracks the backdrop frame for frame, the glass refracts live, moving content. Scroll, or let the photo loop, and the lens keeps bending whatever sits behind it.</p>
-      <p>Worth saying why a copy and not one of the flashier routes. A WebGL screenshot gives real optics but freezes the page into a stale, unselectable texture. Firefox&#x2019;s <code>element()</code> renders a live element as an image, exactly what we want, and exists in no other browser. Houdini&#x2019;s paint worklets are barred from reading existing pixels. Pure CSS never touches the backdrop at all, so it&#x2019;s a convincing photo of glass, not glass. A live copy through a real filter is the only route that&#x2019;s both honest and universal.</p>
+  <span style="color:var(--code-n)">{open </span><span style="color:var(--code-o)">&amp;&amp;</span><span style="color:var(--code-n)"> (</span>
+    <span style="color:var(--code-o)">&lt;</span><span style="color:var(--code-t)">PrismLens</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-a)">x</span><span style="color:var(--code-o)">=</span><span style="color:var(--code-n)">{x}</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-a)">y</span><span style="color:var(--code-o)">=</span><span style="color:var(--code-n)">{y}</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-a)">width</span><span style="color:var(--code-o)">=</span><span style="color:var(--code-s)">{W}</span><span style="color:var(--code-n)"> </span><span style="color:var(--code-a)">height</span><span style="color:var(--code-o)">=</span><span style="color:var(--code-n)">{h}</span><span style="color:var(--code-o)">&gt;</span>
+      <span style="color:var(--code-n)">{menuItems}</span>
+    <span style="color:var(--code-o)">&lt;/</span><span style="color:var(--code-t)">PrismLens</span><span style="color:var(--code-o)">&gt;</span>
+  <span style="color:var(--code-n)">)}</span>
+<span style="color:var(--code-o)">&lt;/</span><span style="color:var(--code-t)">PrismScene</span><span style="color:var(--code-o)">&gt;</span></code></pre>
+      <p><span class="inline-code">PrismScene</span> renders the backdrop once and shares it; <span class="inline-code">PrismLens</span> drops a counter-positioned copy into the lens box and bends it. Because the copy tracks the backdrop frame for frame, the glass refracts live, moving content. Scroll, or let the photo loop, and the lens keeps bending whatever sits behind it.</p>
+      <p>Worth saying why a copy and not one of the flashier routes. A WebGL screenshot gives real optics but freezes the page into a stale, unselectable texture. Firefox&#x2019;s <span class="inline-code">element()</span> renders a live element as an image, exactly what we want, and exists in no other browser. Houdini&#x2019;s paint worklets are barred from reading existing pixels. Pure CSS never touches the backdrop at all, so it&#x2019;s a convincing photo of glass, not glass. A live copy through a real filter is the only route that&#x2019;s both honest and universal.</p>
     </div>
 
-    <!-- Details -->
     <div id="details" class="section section-block">
       <h2>The details that bite</h2>
       <p>That&#x2019;s the idea. Shipping it across browsers is a list of small, unobvious things, some ours and some flagged in Aave&#x2019;s write-up.</p>
-      <p>The displacement map has to reach the filter as a <code>blob:</code> URL. Every guide tells you to inline it as a <code>data:</code> URI; real WebKit silently refuses to load a <code>data:</code> URI inside <code>feImage</code>, the map never arrives, and the glass collapses to flat frost. Blobs load everywhere. Filters also run in linearRGB by default, which quietly changes how far a given grey value displaces, so we force sRGB and the map means what it says.</p>
-      <p>Two more Safari concessions, both called out in Aave&#x2019;s write-up: it caches a filter&#x2019;s output by its <code>id</code>, so a lens that animates needs a fresh id on every rebuild or it freezes on the first frame; and it caps how large a source graphic a filter will process, so the refraction copy is clipped to the lens box before it rasterises. Hand it a full-viewport scene and the filter silently produces nothing.</p>
+      <p>The displacement map has to reach the filter as a <span class="inline-code">blob:</span> URL. Every guide tells you to inline it as a <span class="inline-code">data:</span> URI; real WebKit silently refuses to load a <span class="inline-code">data:</span> URI inside <span class="inline-code">feImage</span>, the map never arrives, and the glass collapses to flat frost. Blobs load everywhere. Filters also run in linearRGB by default, which quietly changes how far a given grey value displaces, so we force sRGB and the map means what it says.</p>
+      <p>Two more Safari concessions, both called out in Aave&#x2019;s write-up: it caches a filter&#x2019;s output by its <span class="inline-code">id</span>, so a lens that animates needs a fresh id on every rebuild or it freezes on the first frame; and it caps how large a source graphic a filter will process, so the refraction copy is clipped to the lens box before it rasterises. Hand it a full-viewport scene and the filter silently produces nothing.</p>
       <p>The browsers also get different chains. Chromium runs SVG filters on the GPU, so the full effect (three displacement passes at slightly different scales for a chromatic fringe at the rim, plus the specular pass) is essentially free. Safari runs them in software, and the backdrop here pans without stopping, so the filter re-rasterises every single frame; a second displacement pass for the fringe is more than that budget allows without dropping frames. So Safari runs one pass: the same dome refraction and the same rim highlight, minus the faint colour split. Same material, scaled to what each browser can afford, and it never falls back to a flat blur.</p>
     </div>
 
-    <!-- One lens -->
     <div id="onelens" class="section section-block">
       <h2>One lens, alive</h2>
       <p>There&#x2019;s a single lens, not one per menu. Move across the nav and it travels to the next item and resizes to that dropdown&#x2019;s shape, one pane of glass changing size and place as you go. The motion is spring-driven and interruptible, so a fast sweep across the triggers pulls it onto whichever item you land on, and the menu rows rise in a quick stagger once it arrives. What you read is continuity: glass held as one moving piece.</p>
     </div>
 
-    <!-- Accessible -->
     <div id="accessible" class="section section-block">
       <h2>Accessible by default</h2>
-      <p>Refraction is motion and translucency, and not everyone wants either. With <code>prefers-reduced-motion</code> the lens stops animating; it cuts to its new position instead of springing. With <code>prefers-reduced-transparency</code>, the system-level &#x201C;I can&#x2019;t read text on glass&#x201D; switch, the effect drops the refraction entirely for an opaque panel, so labels sit on a solid surface at full contrast. The glass is an enhancement; the interface underneath it works without it.</p>
+      <p>Refraction is motion and translucency, and not everyone wants either. With <span class="inline-code">prefers-reduced-motion</span> the lens stops animating; it cuts to its new position instead of springing. With <span class="inline-code">prefers-reduced-transparency</span>, the system-level &#x201C;I can&#x2019;t read text on glass&#x201D; switch, the effect drops the refraction entirely for an opaque panel, so labels sit on a solid surface at full contrast. The glass is an enhancement; the interface underneath it works without it.</p>
     </div>
 
-    <!-- Engine -->
     <div id="engine" class="section section-block">
       <h2>The engine</h2>
-      <p>Two components and one filter primitive are the whole engine. <code>PrismScene</code> shares the backdrop; <code>PrismLens</code> bends a copy of it through the optics above. The refraction was never the hard part; getting honest backdrop pixels into a real filter, in every browser, was. Solve that once and the glass is only a few hundred lines. And what you get isn&#x2019;t a blur doing an impression of glass. It&#x2019;s real refraction, and it works in Safari and Firefox, not just Chrome.</p>
+      <p>Two components and one filter primitive are the whole engine. <span class="inline-code">PrismScene</span> shares the backdrop; <span class="inline-code">PrismLens</span> bends a copy of it through the optics above. The refraction was never the hard part; getting honest backdrop pixels into a real filter, in every browser, was. Solve that once and the glass is only a few hundred lines. And what you get isn&#x2019;t a blur doing an impression of glass. It&#x2019;s real refraction, and it works in Safari and Firefox, not just Chrome.</p>
     </div>
 
-    <!-- Footer -->
     <div class="footer">
       <p class="footer-by"><strong>By Prism</strong></p>
       <p class="footer-desc">Brands, interfaces, and motion for venture-backed companies</p>
       <div class="footer-links">
-        <a href="https://prismglass.dev" class="a-link">Website</a>
+        <a href="https://prism.wahsun.org" class="a-link">Website</a>
         <a href="https://x.com/prismglass" class="a-link">X / Twitter</a>
       </div>
     </div>
 
   </div>
 </div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── Theme toggle ──
+  const html = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+  const lightIcon = toggle.querySelector('.theme-icon-light');
+  const darkIcon = toggle.querySelector('.theme-icon-dark');
+
+  function setTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('prism-theme', theme);
+    if (theme === 'dark') {
+      lightIcon.style.display = 'none';
+      darkIcon.style.display = 'inline';
+      document.querySelector('meta[name="theme-color"]').content = '#16181d';
+    } else {
+      lightIcon.style.display = 'inline';
+      darkIcon.style.display = 'none';
+      document.querySelector('meta[name="theme-color"]').content = '#708696';
+    }
+  }
+
+  const saved = localStorage.getItem('prism-theme');
+  if (saved) {
+    setTheme(saved);
+  } else {
+    // Default to light
+    setTheme('light');
+  }
+
+  toggle.addEventListener('click', function() {
+    setTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  // ── Menu data ──
+  var menus = {
+    product: [
+      { title: 'Prism Engine', desc: 'Optics-based refraction for any web surface', icon: '💎' },
+      { title: 'Prism SDK', desc: 'Drop-in React and Vue components', icon: '📦' },
+      { title: 'Prism Cloud', desc: 'Hosted rendering for static sites', icon: '☁️' },
+      { title: 'Prism Analyzer', desc: 'Performance profiler for glass surfaces', icon: '📊' }
+    ],
+    resources: [
+      { title: 'Documentation', desc: 'Full API reference and guides', icon: '📖' },
+      { title: 'Playground', desc: 'Experiment with optics in the browser', icon: '🧪' },
+      { title: 'Templates', desc: 'Pre-built glass layouts', icon: '🎨' },
+      { title: 'Blog', desc: 'Deep dives on optics and rendering', icon: '✍️' }
+    ],
+    company: [
+      { title: 'About', desc: 'Our story and mission', icon: '🏢' },
+      { title: 'Careers', desc: 'Join us building the future of web glass', icon: '🚀' },
+      { title: 'Contact', desc: 'Get in touch', icon: '💬' },
+      { title: 'GitHub', desc: 'Open source components', icon: '🐙' }
+    ]
+  };
+
+  // ── Dropdown logic ──
+  var dropdown = document.getElementById('glassDropdown');
+  var dropdownInner = document.getElementById('glassDropdownInner');
+  var dropdownContent = document.getElementById('glassDropdownContent');
+  var glassBgClone = document.getElementById('glassBgClone');
+  var heroBg = document.getElementById('heroBg');
+  var hero = document.getElementById('hero');
+  var overlay = document.getElementById('heroOverlay');
+  var navBtns = document.querySelectorAll('.hero-nav-btn');
+  var activeMenu = null;
+  var closeTimer = null;
+  var isHoveringDropdown = false;
+  var currentBtn = null;
+
+  function buildMenu(items) {
+    var html = '';
+    items.forEach(function(item, i) {
+      html += '<div class="glass-dropdown-item">' +
+        '<div class="glass-dropdown-item-icon">' + item.icon + '</div>' +
+        '<div class="glass-dropdown-item-text">' +
+          '<div class="glass-dropdown-item-title">' + item.title + '</div>' +
+          '<div class="glass-dropdown-item-desc">' + item.desc + '</div>' +
+        '</div>' +
+      '</div>';
+      if (i < items.length - 1) {
+        html += '<div class="glass-dropdown-sep"></div>';
+      }
+    });
+    return html;
+  }
+
+  function positionDropdown(btn) {
+    var btnRect = btn.getBoundingClientRect();
+    var heroRect = hero.getBoundingClientRect();
+    var dropdownW = 280;
+
+    var left = btnRect.left + btnRect.width / 2 - dropdownW / 2;
+    // Clamp to keep dropdown inside hero area
+    if (left < 16) left = 16;
+    if (left + dropdownW > window.innerWidth - 16) left = window.innerWidth - dropdownW - 16;
+
+    var top = btnRect.bottom + 8 - heroRect.top;
+
+    dropdown.style.left = left + 'px';
+    dropdown.style.top = top + 'px';
+    dropdownInner.style.width = dropdownW + 'px';
+  }
+
+  function updateBgClone() {
+    var ddRect = dropdown.getBoundingClientRect();
+    var heroRect = hero.getBoundingClientRect();
+
+    // Position the background clone to match the hero background
+    var offsetX = -(ddRect.left - heroRect.left);
+    var offsetY = -(ddRect.top - heroRect.top);
+
+    glassBgClone.style.backgroundImage = 'url("/bg.webp")';
+    glassBgClone.style.backgroundSize = 'cover';
+    glassBgClone.style.backgroundPosition = 'center top';
+    glassBgClone.style.backgroundPosition = 'center ' + offsetY + 'px';
+    glassBgClone.style.width = ddRect.width + 'px';
+    glassBgClone.style.height = ddRect.height + 'px';
+  }
+
+  function openMenu(menuName, btn) {
+    if (activeMenu === menuName && dropdown.classList.contains('visible')) {
+      closeMenu();
+      return;
+    }
+
+    activeMenu = menuName;
+    currentBtn = btn;
+
+    // Build menu content
+    var items = menus[menuName];
+    dropdownContent.innerHTML = buildMenu(items);
+
+    // Position
+    positionDropdown(btn);
+    updateBgClone();
+
+    // Show
+    dropdown.classList.add('visible');
+    overlay.classList.add('visible');
+
+    // Mark active button
+    navBtns.forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeMenu() {
+    dropdown.classList.remove('visible');
+    overlay.classList.remove('visible');
+    navBtns.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-expanded', 'false'); });
+    activeMenu = null;
+    currentBtn = null;
+  }
+
+  // Button hover/click events
+  navBtns.forEach(function(btn) {
+    btn.addEventListener('mouseenter', function() {
+      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+      var menuName = btn.getAttribute('data-menu');
+      if (activeMenu && activeMenu !== menuName) {
+        openMenu(menuName, btn);
+      } else if (!activeMenu) {
+        openMenu(menuName, btn);
+      }
+    });
+
+    btn.addEventListener('mouseleave', function() {
+      closeTimer = setTimeout(function() {
+        if (!isHoveringDropdown) {
+          closeMenu();
+        }
+      }, 150);
+    });
+
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var menuName = btn.getAttribute('data-menu');
+      if (activeMenu === menuName && dropdown.classList.contains('visible')) {
+        closeMenu();
+      } else {
+        openMenu(menuName, btn);
+      }
+    });
+  });
+
+  // Dropdown hover
+  dropdown.addEventListener('mouseenter', function() {
+    isHoveringDropdown = true;
+    if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+  });
+
+  dropdown.addEventListener('mouseleave', function() {
+    isHoveringDropdown = false;
+    closeTimer = setTimeout(function() {
+      closeMenu();
+    }, 200);
+  });
+
+  // Click outside closes
+  document.addEventListener('click', function(e) {
+    if (activeMenu) {
+      var isNav = false;
+      navBtns.forEach(function(b) { if (b.contains(e.target)) isNav = true; });
+      if (!isNav && !dropdown.contains(e.target)) {
+        closeMenu();
+      }
+    }
+  });
+
+  // Scroll closes
+  window.addEventListener('scroll', function() {
+    if (activeMenu) closeMenu();
+  }, { passive: true });
+
+  // Resize repositions
+  window.addEventListener('resize', function() {
+    if (activeMenu && currentBtn) {
+      positionDropdown(currentBtn);
+      updateBgClone();
+    }
+  });
+
+  // ── Expand panel ──
+  var expandBtn = document.getElementById('expandBtn');
+  var expandPanel = document.getElementById('expandPanel');
+  var expandClose = document.getElementById('expandClose');
+
+  expandBtn.addEventListener('click', function() {
+    expandPanel.classList.add('visible');
+  });
+
+  expandClose.addEventListener('click', function() {
+    expandPanel.classList.remove('visible');
+  });
+
+  expandPanel.addEventListener('click', function(e) {
+    if (e.target === expandPanel) {
+      expandPanel.classList.remove('visible');
+    }
+  });
+
+  // ── Keyboard ──
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      if (activeMenu) closeMenu();
+      expandPanel.classList.remove('visible');
+    }
+  });
+
+})();
+</script>
 </body>
 </html>
